@@ -6,6 +6,10 @@ import java.util.List;
 public class Parser {
 
     public static List<String> parseSeparator(String input) {
+        if (input == null || input.isBlank()) {
+            return List.of();
+        }
+
         List<String> result = new ArrayList<>();
 
         for (String str : input.split(",")) {
