@@ -1,5 +1,11 @@
 package menu.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import menu.util.Parser;
+import menu.util.Validator;
 import menu.view.InputView;
 import menu.view.OutputView;
 
@@ -14,18 +20,33 @@ public class MenuController {
     }
 
     public void start() {
-        while (true) {
-            try {
-                String coachInput = inputView.readCoach();
-                // 코치 파싱
-                // 코치 유효성 검사
+        try {
+            String coachInput = inputView.readCoach();
+            List<String> coaches = Parser.parseSeparator(coachInput);
+            Validator.validateCoach(coaches);
 
-                // 각 코치들 못 먹는 음식 입력 받기 -> 음식들 각각 파싱 및 유효성 검사
+            inputCantEatMenu(coaches);
 
-                // 메뉴 추천
-            } catch (RuntimeException e) {
-                outputView.printError(e);
+        } catch (RuntimeException e) {
+            outputView.printError(e);
+            start();
+        }
+    }
+
+    private void inputCantEatMenu(List<String> coaches) {
+        try {
+            Map<String, List<String>> allCoachCantEatMenu = new HashMap<>();
+            for (String coach : coaches) {
+                String cantEatInput = inputView.readCantEatMenu(coach);
+                List<String> cantEatMenu = Parser.parseSeparator(cantEatInput);
+                Validator.validateCantEatMenu(cantEatMenu);
+                allCoachCantEatMenu.put(coach, cantEatMenu);
             }
+
+            // 메뉴 추천
+        } catch (RuntimeException e) {
+            outputView.printError(e);
+            inputCantEatMenu(coaches);
         }
     }
 }
