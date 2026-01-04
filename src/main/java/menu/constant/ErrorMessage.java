@@ -6,6 +6,7 @@ public enum ErrorMessage {
     COACHES_OUT_OF_RANGE("코치의 수는 최소 2명, 최대 5명이어야 합니다."),
     COACH_NAME_OUT_OF_RANGE("코치의 이름은 2~4글자이어야 합니다."),
     COACHES_OVERLAP("코치들이 중복됩니다."),
+    COACH_NOT_FOUND("존재하지 않은 코치입니다."),
 
     MENU_COUNT_OUT_OF_RANGE("못 먹는 메뉴의 수는 최소 0개, 최대 2개어야 합니다."),
     MENU_OVERLAP("메뉴들이 중복됩니다."),
