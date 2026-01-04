@@ -45,7 +45,7 @@ public class MenuController {
                 allCoachCantEatMenu.put(coach, cantEatMenu);
             }
             outputView.printStartPhrase();
-            menuService.createCoach(allCoachCantEatMenu);
+            menuService.createCoach(coaches, allCoachCantEatMenu);
             menuService.startRecommend();
             outputView.printRecommendedResults();
         } catch (RuntimeException e) {

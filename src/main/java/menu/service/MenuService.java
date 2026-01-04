@@ -11,8 +11,8 @@ import menu.repository.RecommendHistory;
 
 public class MenuService {
 
-    public void createCoach(Map<String, List<String>> allCoachCantEatMenu) {
-        for (String coachName : allCoachCantEatMenu.keySet()) {
+    public void createCoach(List<String> coaches, Map<String, List<String>> allCoachCantEatMenu) {
+        for (String coachName : coaches) {
             List<String> cantEatMenu = allCoachCantEatMenu.get(coachName);
             CoachRepository.addCoach(new Coach(coachName, cantEatMenu));
         }

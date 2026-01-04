@@ -24,6 +24,8 @@ public class RecommendHistory {
     }
 
     public static boolean hasEatBefore(Coach coach, String menu) {
+        if (!eatHistory.containsKey(coach)) return false;
+
         for (String eatMenu : eatHistory.get(coach).values()) {
             if (eatMenu.equals(menu)) return true;
         }
@@ -58,7 +60,7 @@ public class RecommendHistory {
             result += " | " + categoryHistory.get(day).name();
         }
 
-        return result;
+        return result + " ]";
     }
 
     private static String formattedCoachEatHistory(Coach coach) {

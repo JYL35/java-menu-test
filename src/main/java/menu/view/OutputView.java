@@ -1,5 +1,7 @@
 package menu.view;
 
+import menu.repository.RecommendHistory;
+
 public class OutputView {
     private static final String START_SERVICE = "점심 메뉴 추천을 시작합니다.";
     private static final String RECOMMENDED_RESULTS = "메뉴 추천 결과입니다.";
@@ -12,7 +14,11 @@ public class OutputView {
 
     public void printRecommendedResults() {
         System.out.println(RECOMMENDED_RESULTS);
-        // 출력 로직 구현
+        System.out.println("[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]");
+        System.out.println(RecommendHistory.formattedCategoryHistory());
+        for (String coachEatResult : RecommendHistory.formattedEatHistory()) {
+            System.out.println(coachEatResult);
+        }
         printNewLine();
         System.out.println(SUCCESS_RECOMMENDED);
     }
