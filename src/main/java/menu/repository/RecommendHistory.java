@@ -1,6 +1,8 @@
 package menu.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import menu.domain.Category;
 import menu.domain.Coach;
@@ -37,5 +39,34 @@ public class RecommendHistory {
             if (count == 2) return true;
         }
         return false;
+    }
+
+    public static List<String> formattedEatHistory() {
+        List<String> result = new ArrayList<>();
+
+        for (Coach coach : CoachRepository.coachs()) {
+            result.add(formattedCoachEatHistory(coach));
+        }
+
+        return result;
+    }
+
+    public static String formattedCategoryHistory() {
+        String result = "[ 카테고리";
+
+        for (Day day : Day.values()) {
+            result += " | " + categoryHistory.get(day).name();
+        }
+
+        return result;
+    }
+
+    private static String formattedCoachEatHistory(Coach coach) {
+        String result = "[ " + coach.getName();
+
+        for (Day day : Day.values()) {
+            result += " | " + eatHistory.get(coach).get(day);
+        }
+        return result + " ]";
     }
 }

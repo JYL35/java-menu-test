@@ -3,6 +3,7 @@ package menu.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import menu.service.MenuService;
 import menu.util.Parser;
 import menu.util.Validator;
 import menu.view.InputView;
@@ -10,10 +11,12 @@ import menu.view.OutputView;
 
 public class MenuController {
 
+    private final MenuService menuService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public MenuController(InputView inputView, OutputView outputView) {
+    public MenuController(MenuService menuService, InputView inputView, OutputView outputView) {
+        this.menuService = menuService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -41,8 +44,10 @@ public class MenuController {
                 Validator.validateCantEatMenu(cantEatMenu);
                 allCoachCantEatMenu.put(coach, cantEatMenu);
             }
-
-            // 메뉴 추천
+            outputView.printStartPhrase();
+            menuService.createCoach(allCoachCantEatMenu);
+            menuService.startRecommend();
+            outputView.printRecommendedResults();
         } catch (RuntimeException e) {
             outputView.printError(e);
             inputCantEatMenu(coaches);
