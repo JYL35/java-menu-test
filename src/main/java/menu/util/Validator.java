@@ -1,6 +1,7 @@
 package menu.util;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import menu.constant.ErrorMessage;
 
 public class Validator {
@@ -44,7 +45,7 @@ public class Validator {
     private static void validateDuplicate(List<String> input, ErrorMessage errorMessage) {
         List<String> tempInput = input.stream()
                 .distinct()
-                .toList();
+                .collect(Collectors.toList());
 
         if (input.size() != tempInput.size()) {
             throw new IllegalArgumentException(errorMessage.getMessage());
