@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import menu.domain.Category;
 import menu.domain.Coach;
+import menu.domain.Day;
 import menu.repository.CoachRepository;
 import menu.repository.RecommendHistory;
 
@@ -18,7 +19,17 @@ public class MenuService {
     }
 
     public void startRecommend() {
+        for (Day day : Day.values()) {
+            dayRecommend(day);
+        }
+    }
+
+    private void dayRecommend(Day day) {
         Category category = shuffledCategory();
+        for (Coach coach : CoachRepository.coachs()) {
+            String menu = shuffledMenu(coach, category.getMenu());
+            RecommendHistory.save(coach, day, category, menu);
+        }
     }
 
     private Category shuffledCategory() {
@@ -27,5 +38,16 @@ public class MenuService {
             return shuffledCategory();
         }
         return category;
+    }
+
+    private String shuffledMenu(Coach coach, List<String> menus) {
+        String menu = Randoms.shuffle(menus).get(0);
+        if (coach.cantYouEat(menu)) {
+            return shuffledMenu(coach, menus);
+        }
+        if (RecommendHistory.hasEatBefore(coach, menu)) {
+            return shuffledMenu(coach, menus);
+        }
+        return menu;
     }
 }

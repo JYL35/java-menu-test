@@ -12,8 +12,12 @@ public class RecommendHistory {
     private static Map<Day, Category> categoryHistory = new HashMap<>();
 
     public static void save(Coach coach, Day day, Category category, String menu) {
-        eatHistory.computeIfAbsent(coach, k -> new HashMap<>())
-                .computeIfAbsent(day, k -> menu);
+//        eatHistory.computeIfAbsent(coach, k -> new HashMap<>())
+//                .computeIfAbsent(day, k -> menu);
+        Map<Day, String> dayHistory = eatHistory.getOrDefault(coach, new HashMap<>());
+        dayHistory.put(day, menu);
+        eatHistory.put(coach, dayHistory);
+
         categoryHistory.put(day, category);
     }
 

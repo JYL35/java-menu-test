@@ -12,7 +12,7 @@ public class Coach {
         this.cantEatMenu = cantEatMenu;
     }
 
-    public boolean canYouEat(String menu) {
+    public boolean cantYouEat(String menu) {
         return cantEatMenu.contains(menu);
     }
 
