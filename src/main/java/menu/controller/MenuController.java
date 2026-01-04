@@ -22,35 +22,39 @@ public class MenuController {
     }
 
     public void start() {
-        try {
-            String coachInput = inputView.readCoach();
-            List<String> coaches = Parser.parseSeparator(coachInput);
-            Validator.validateCoach(coaches);
+        while (true) {
+            try {
+                String coachInput = inputView.readCoach();
+                List<String> coaches = Parser.parseSeparator(coachInput);
+                Validator.validateCoach(coaches);
 
-            inputCantEatMenu(coaches);
-
-        } catch (RuntimeException e) {
-            outputView.printError(e);
-            start();
+                inputCantEatMenu(coaches);
+                break;
+            } catch (RuntimeException e) {
+                outputView.printError(e);
+                start();
+            }
         }
     }
 
     private void inputCantEatMenu(List<String> coaches) {
-        try {
-            Map<String, List<String>> allCoachCantEatMenu = new HashMap<>();
-            for (String coach : coaches) {
-                String cantEatInput = inputView.readCantEatMenu(coach);
-                List<String> cantEatMenu = Parser.parseSeparator(cantEatInput);
-                Validator.validateCantEatMenu(cantEatMenu);
-                allCoachCantEatMenu.put(coach, cantEatMenu);
+        while (true) {
+            try {
+                Map<String, List<String>> allCoachCantEatMenu = new HashMap<>();
+                for (String coach : coaches) {
+                    String cantEatInput = inputView.readCantEatMenu(coach);
+                    List<String> cantEatMenu = Parser.parseSeparator(cantEatInput);
+                    Validator.validateCantEatMenu(cantEatMenu);
+                    allCoachCantEatMenu.put(coach, cantEatMenu);
+                }
+                outputView.printStartPhrase();
+                menuService.createCoach(coaches, allCoachCantEatMenu);
+                menuService.startRecommend();
+                outputView.printRecommendedResults();
+                break;
+            } catch (RuntimeException e) {
+                outputView.printError(e);
             }
-            outputView.printStartPhrase();
-            menuService.createCoach(coaches, allCoachCantEatMenu);
-            menuService.startRecommend();
-            outputView.printRecommendedResults();
-        } catch (RuntimeException e) {
-            outputView.printError(e);
-            inputCantEatMenu(coaches);
         }
     }
 }
